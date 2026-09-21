@@ -13,11 +13,12 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="IT Helpdesk - Create Ticket"/>
   <Description DefaultValue="Create an IT helpdesk ticket directly from an email in Outlook. Launches the intake form pre-filled with email details."/>
-  <IconUrl DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/assets/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/assets/icon-128.png"/>
+  <IconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/ITHelpdesk"/>
   <AppDomains>
     <AppDomain>https://cityofranchocordovaorg.sharepoint.com</AppDomain>
+    <AppDomain>https://rc-outlook-addin-spfx.vercel.app</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -30,7 +31,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/taskpane.html"/>
+        <SourceLocation DefaultValue="https://rc-outlook-addin-spfx.vercel.app/taskpane.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -77,13 +78,13 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://cityofranchocordovaorg.sharepoint.com/sites/appcatalog/SiteAssets/addins/taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel" DefaultValue="IT Helpdesk"/>
