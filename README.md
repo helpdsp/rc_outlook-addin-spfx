@@ -1,7 +1,7 @@
 # Outlook Add-in Static Assets & Vercel CDN Delivery
-## Repositorio de Publicación de Activos para Outlook Add-in (Bajaworks)
+## Repositorio de Publicación de Activos para Outlook Add-in (Multi-Tenant)
 
-Este proyecto aloja y entrega los activos estáticos públicos (iconografía multi-dispositivo, taskpane de respaldo y polyfills) consumidos por el complemento de Microsoft Outlook (`outlookAddin.bajaworks.manifest.xml`).
+Este proyecto aloja y entrega los activos estáticos públicos (iconografía multi-dispositivo, taskpane de respaldo y polyfills) consumidos por el complemento de Microsoft Outlook.
 
 ---
 
@@ -17,7 +17,7 @@ Cualquier cambio, adición o actualización de activos gráficos en la carpeta `
 ```bash
 cd apps/rc_outlook-addin-spfx
 git add .
-git commit -m "feat(icons): actualizar iconografia oficial Bajaworks multi-dispositivo"
+git commit -m "feat(bajaworks): agregar suite oficial multi-dispositivo aislada en /assets/bajaworks"
 git push origin main
 ```
 
@@ -25,30 +25,45 @@ En cuanto GitHub recibe el push, Vercel dispara el despliegue automático y los 
 
 ---
 
-## 2. Estructura del Proyecto
+## 2. Estructura Multi-Tenant / Multi-Marca
+
+El CDN soporta aislamiento por tenant / marca para evitar sobreescritura accidental:
 
 ```text
 apps/rc_outlook-addin-spfx/
 ├── public/
-│   ├── assets/               # Iconos corporativos oficiales de Bajaworks
-│   │   ├── icon-16.png       # Desktop Ribbon pequeño
-│   │   ├── icon-25.png       # Mobile/iPad barra de lectura (scale="1")
-│   │   ├── icon-32.png       # Desktop estándar
-│   │   ├── icon-48.png       # Mobile Bottom Sheet (scale="1")
-│   │   ├── icon-50.png       # iPad Retina / iPhone (scale="2")
-│   │   ├── icon-64.png       # App Catalog / Mobile scale="2"
-│   │   ├── icon-75.png       # iPhone Pro / Android OLED (scale="3")
-│   │   ├── icon-80.png       # Desktop Ribbon grande
-│   │   ├── icon-96.png       # Retina scale="3" / scale="2"
-│   │   ├── icon-128.png      # App Catalog High Resolution
-│   │   ├── icon-144.png      # Mobile Ultra HD scale="3"
-│   │   ├── icon-192.png      # PWA / Android
-│   │   ├── icon-512.png      # Master Icon
-│   │   └── helpdesk-logo.svg # Vector maestro SVG
-│   ├── commands.html         # Endpoint de comandos de Outlook
-│   ├── taskpane.html         # Taskpane HTML de respaldo
-│   └── polyfill.js           # Polyfills para motores WebView antiguos
-├── vercel.json               # Configuración de ruteo y headers CORS para Vercel
+│   ├── assets/                       # Activos Rancho Cordova (Tenant activo en producción)
+│   │   ├── icon-16.png
+│   │   ├── icon-25.png
+│   │   ├── icon-32.png
+│   │   ├── icon-48.png
+│   │   ├── icon-64.png
+│   │   ├── icon-80.png
+│   │   ├── icon-128.png
+│   │   └── logo-filled.png
+│   ├── assets/bajaworks/             # Suite corporativa oficial Bajaworks multi-dispositivo
+│   │   ├── icon-16.png               # Desktop Ribbon pequeño (16x16)
+│   │   ├── icon-25.png               # Mobile/iPad barra de lectura scale="1" (25x25)
+│   │   ├── icon-32.png               # Desktop estándar (32x32)
+│   │   ├── icon-48.png               # Mobile Bottom Sheet scale="1" (48x48)
+│   │   ├── icon-50.png               # iPad Retina / iPhone scale="2" (50x50)
+│   │   ├── icon-64.png               # App Catalog / Mobile scale="2" (64x64)
+│   │   ├── icon-75.png               # iPhone Pro / Android OLED scale="3" (75x75)
+│   │   ├── icon-80.png               # Desktop Ribbon grande (80x80)
+│   │   ├── icon-96.png               # Retina scale="3" / scale="2" (96x96)
+│   │   ├── icon-128.png              # App Catalog High Resolution (128x128)
+│   │   ├── icon-144.png              # Mobile Ultra HD scale="3" (144x144)
+│   │   ├── icon-192.png              # PWA / Android / Teams Color (192x192)
+│   │   ├── icon-256.png              # High-DPI Desktop Store (256x256)
+│   │   ├── icon-512.png              # Master Icon (512x512)
+│   │   ├── outline-32.png            # Teams Outline Monocromático (32x32)
+│   │   ├── teams-outline-32.png      # Teams Outline (32x32)
+│   │   ├── teams-color-192.png       # Teams Color App Store (192x192)
+│   │   └── helpdesk-logo.svg         # Vector maestro SVG
+│   ├── commands.html                 # Endpoint de comandos de Outlook
+│   ├── taskpane.html                 # Taskpane HTML de respaldo
+│   └── polyfill.js                   # Polyfills para motores WebView antiguos
+├── vercel.json                       # Configuración de ruteo y headers CORS para Vercel
 ├── package.json
 └── README.md
 ```
@@ -57,20 +72,19 @@ apps/rc_outlook-addin-spfx/
 
 ## 3. Consumo en los Manifiestos de Outlook
 
-Los manifiestos XML (`dist/deploy/bajaworks/outlookAddin.bajaworks.manifest.xml`) referencian estos activos mediante la URL pública de Vercel:
+Los manifiestos XML (`dist/deploy/bajaworks/outlookAddin.bajaworks.manifest.xml`) referencian estos activos mediante la URL aislada de Bajaworks en Vercel:
 
 ```xml
-<IconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-64.png"/>
-<HighResolutionIconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-128.png"/>
+<IconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-64.png"/>
+<HighResolutionIconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-128.png"/>
 ```
 
 Y en los recursos de imagen para Desktop y Móvil:
 
 ```xml
-<bt:Image id="Icon.16x16" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-16.png"/>
-<bt:Image id="Icon.32x32" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-32.png"/>
-<bt:Image id="Icon.80x80" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-80.png"/>
-<bt:Image id="Mobile.Icon25" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-25.png"/>
-<bt:Image id="Mobile.Icon48" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/icon-48.png"/>
+<bt:Image id="Icon.16x16" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-16.png"/>
+<bt:Image id="Icon.32x32" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-32.png"/>
+<bt:Image id="Icon.80x80" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-80.png"/>
+<bt:Image id="Mobile.Icon25" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-25.png"/>
+<bt:Image id="Mobile.Icon48" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-48.png"/>
 ```
-
