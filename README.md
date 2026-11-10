@@ -63,7 +63,7 @@ apps/rc_outlook-addin-spfx/
 │   ├── commands.html                 # Endpoint de comandos de Outlook
 │   ├── taskpane.html                 # Taskpane HTML de respaldo
 │   └── polyfill.js                   # Polyfills para motores WebView antiguos
-├── vercel.json                       # Configuración de ruteo y headers CORS para Vercel
+├── vercel.json                       # Configuración de ruteo, CORS y MIME types para Vercel
 ├── package.json
 └── README.md
 ```
@@ -72,19 +72,42 @@ apps/rc_outlook-addin-spfx/
 
 ## 3. Consumo en los Manifiestos de Outlook
 
-Los manifiestos XML (`dist/deploy/bajaworks/outlookAddin.bajaworks.manifest.xml`) referencian estos activos mediante la URL aislada de Bajaworks en Vercel:
+Los manifiestos XML (`dist/deploy/bajaworks/outlookAddin.bajaworks.manifest.xml`) referencian estos activos mediante la URL aislada de Bajaworks en Vercel con soporte completo de alta definición (`scale="1"`, `scale="2"`, `scale="3"`):
 
 ```xml
 <IconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-64.png"/>
 <HighResolutionIconUrl DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-128.png"/>
 ```
 
-Y en los recursos de imagen para Desktop y Móvil:
+### Mobile Icon List (MailAppVersionOverrides 1.1)
 
 ```xml
-<bt:Image id="Icon.16x16" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-16.png"/>
-<bt:Image id="Icon.32x32" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-32.png"/>
-<bt:Image id="Icon.80x80" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-80.png"/>
-<bt:Image id="Mobile.Icon25" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-25.png"/>
-<bt:Image id="Mobile.Icon48" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-48.png"/>
+<Icon xsi:type="bt:MobileIconList">
+  <bt:Image size="25" scale="1" resid="Mobile.Icon25.1x"/>
+  <bt:Image size="25" scale="2" resid="Mobile.Icon25.2x"/>
+  <bt:Image size="25" scale="3" resid="Mobile.Icon25.3x"/>
+  <bt:Image size="32" scale="1" resid="Icon.32x32.1x"/>
+  <bt:Image size="32" scale="2" resid="Icon.32x32.2x"/>
+  <bt:Image size="32" scale="3" resid="Icon.32x32.3x"/>
+  <bt:Image size="48" scale="1" resid="Mobile.Icon48.1x"/>
+  <bt:Image size="48" scale="2" resid="Mobile.Icon48.2x"/>
+  <bt:Image size="48" scale="3" resid="Mobile.Icon48.3x"/>
+</Icon>
+```
+
+### Recursos de Imagen Asociados (`<bt:Images>`)
+
+```xml
+<bt:Image id="Icon.16x16"      DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-16.png"/>
+<bt:Image id="Icon.32x32"      DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-32.png"/>
+<bt:Image id="Icon.80x80"      DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-80.png"/>
+<bt:Image id="Mobile.Icon25.1x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-25.png"/>
+<bt:Image id="Mobile.Icon25.2x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-50.png"/>
+<bt:Image id="Mobile.Icon25.3x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-75.png"/>
+<bt:Image id="Icon.32x32.1x"   DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-32.png"/>
+<bt:Image id="Icon.32x32.2x"   DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-64.png"/>
+<bt:Image id="Icon.32x32.3x"   DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-96.png"/>
+<bt:Image id="Mobile.Icon48.1x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-48.png"/>
+<bt:Image id="Mobile.Icon48.2x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-96.png"/>
+<bt:Image id="Mobile.Icon48.3x" DefaultValue="https://rc-outlook-addin-spfx.vercel.app/assets/bajaworks/icon-144.png"/>
 ```
